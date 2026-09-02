@@ -8,16 +8,16 @@ gui:
   # 3 = the Nerd Font version installed via the Brewfile.
   # Set this to "" if icons ever render as empty boxes.
   nerdFontsVersion: "3"
-
   # Side panel takes a third of the width, diff gets the rest.
   sidePanelWidth: 0.33
   mainPanelSplitMode: flexible
-
   showFileTree: true
   showRandomTip: false
   showCommandLog: false
   skipDiscardChangeWarning: false
-
+  # Colour the commit subject once it grows too long to read in a git log.
+  commitLength:
+    show: true
   # Catppuccin Mocha
   theme:
     activeBorderColor:
@@ -39,12 +39,11 @@ gui:
       - "#cdd6f4" # text
     searchingActiveBorderColor:
       - "#f9e2af" # yellow
-
 git:
-  paging:
-    colorArg: always
-  # Warn when the commit subject line gets too long for a readable git log.
-  commitPrefixes: {}
+  # Keep git's own colours in the diff panel.
+  diffRenderers:
+    - colorArg: always
+      type: rawGit
 
 # Ask before quitting while a command is still running.
 promptToReturnFromSubprocess: true
