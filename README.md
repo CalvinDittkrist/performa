@@ -56,6 +56,9 @@ Two consequences worth knowing:
   machine gets byte-identical plugin versions.
 - **tmux plugins live in `~/.local/share/tmux/plugins`, not next to `tmux.conf`.** The
   default location would clone plugin sources straight into this repo's history.
+- **lazygit rewrites its own config** when its schema changes between releases. Because
+  of the symlink that edit lands in this repo, so it shows up in `git status` — that is
+  working as intended, just commit it.
 
 ### Why `zsh/.zshenv` exists
 
@@ -197,6 +200,10 @@ installed on *both* sides. Run `prefix` `Shift+i` in tmux and `:Lazy sync` in Ne
 
 **A language server is not attaching** — run `:checkhealth vim.lsp` in the affected file.
 If the binary is missing, `:Mason` will install it.
+
+**Is anything broken?** — `:checkhealth` is the place to look. A healthy install reports
+no errors. Two warnings from `vim.pack` about an empty `site/pack/core` directory are
+expected; Neovim creates that directory itself and then complains about it.
 
 **Start over from scratch** — `stow -D <package>` removes the symlinks; deleting
 `~/.local/share/nvim` resets all Neovim plugins.
