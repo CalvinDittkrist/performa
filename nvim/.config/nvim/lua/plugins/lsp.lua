@@ -10,18 +10,22 @@
 --                    detection, sane defaults) for hundreds of servers
 --   vim.lsp.enable   Neovim 0.11+ built-in: turns a definition on
 --
--- To add a language: add the server name to BOTH lists below, then restart.
--- Server names:  :Mason  (browse)  or  :help lspconfig-all
-
--- The servers that should be active. One visible list, no magic.
+-- The servers that should be active. One list, no magic.
+--
+-- Annoyingly the two tools name the same thing differently, so both names are
+-- spelled out side by side:
+--   left  = the nvim-lspconfig name, used by vim.lsp.enable   (:help lspconfig-all)
+--   right = the mason package name, used to download it       (:Mason to browse)
+--
+-- To add a language, add one line here and restart.
 local servers = {
-	"lua_ls", -- Lua (this config itself)
-	"ts_ls", -- TypeScript / JavaScript
-	"pyright", -- Python
-	"clangd", -- C / C++
-	"jsonls", -- JSON
-	"yamlls", -- YAML (docker-compose, CI, supabase)
-	"bashls", -- shell scripts
+	lua_ls = "lua-language-server", -- Lua (this config itself)
+	ts_ls = "typescript-language-server", -- TypeScript / JavaScript
+	pyright = "pyright", -- Python
+	clangd = "clangd", -- C / C++
+	jsonls = "json-lsp", -- JSON
+	yamlls = "yaml-language-server", -- YAML (docker-compose, CI, supabase)
+	bashls = "bash-language-server", -- shell scripts
 }
 
 return {
@@ -70,7 +74,7 @@ return {
 			})
 
 			-- --- Turn the servers on ---------------------------------------------
-			vim.lsp.enable(servers)
+			vim.lsp.enable(vim.tbl_keys(servers))
 
 			-- --- Shortcuts, active only in buffers with a running server ---------
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -116,17 +120,34 @@ return {
 	-- :Mason by hand on every new machine.
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		event = "VeryLazy",
+		-- Same trigger as nvim-lspconfig above: the moment a real file is opened
+		-- is exactly when the servers need to exist. VeryLazy would be the more
+		-- obvious choice but it hangs off UIEnter, which makes it untestable in
+		-- headless Neovim and needlessly indirect here.
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = { "mason-org/mason.nvim" },
-		opts = {
-			ensure_installed = vim.list_extend(vim.deepcopy(servers), {
-				"stylua", -- Lua formatter
-				"prettier", -- JS/TS/JSON/YAML/Markdown formatter
-				"ruff", -- Python linter + formatter
-				"clang-format", -- C/C++ formatter
-				"shfmt", -- shell formatter
-			}),
-			run_on_start = true,
-		},
+		config = function()
+			local installer = require("mason-tool-installer")
+
+			installer.setup({
+				-- The language servers above, plus the formatters used by
+				-- lua/plugins/format.lua. All of these are mason package names.
+				ensure_installed = vim.list_extend(vim.tbl_values(servers), {
+					"stylua", -- Lua formatter
+					"prettier", -- JS/TS/JSON/YAML/Markdown formatter
+					"ruff", -- Python linter + formatter
+					"clang-format", -- C/C++ formatter
+					"shfmt", -- shell formatter
+				}),
+				-- Off on purpose: the plugin implements run_on_start with a VimEnter
+				-- autocmd, and VeryLazy fires *after* VimEnter. The hook would be
+				-- registered too late and nothing would ever install. Calling the
+				-- check directly below does not depend on that timing.
+				run_on_start = false,
+			})
+
+			-- false = install what is missing, but do not update what is already there.
+			installer.check_install(false)
+		end,
 	},
 }
