@@ -27,6 +27,13 @@ return {
 			{ "<C-j>", "<cmd>TmuxNavigateDown<CR>", desc = "Window/pane below" },
 			{ "<C-k>", "<cmd>TmuxNavigateUp<CR>", desc = "Window/pane above" },
 			{ "<C-l>", "<cmd>TmuxNavigateRight<CR>", desc = "Window/pane right" },
+			-- Shift+Arrow does the same thing. tmux only forwards these keys to
+			-- Neovim when a vim-like process is running in the pane, so without
+			-- these four lines they would arrive here and do nothing useful.
+			{ "<S-Left>", "<cmd>TmuxNavigateLeft<CR>", desc = "Window/pane left" },
+			{ "<S-Down>", "<cmd>TmuxNavigateDown<CR>", desc = "Window/pane below" },
+			{ "<S-Up>", "<cmd>TmuxNavigateUp<CR>", desc = "Window/pane above" },
+			{ "<S-Right>", "<cmd>TmuxNavigateRight<CR>", desc = "Window/pane right" },
 		},
 	},
 

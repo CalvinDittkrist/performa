@@ -232,6 +232,8 @@ Restart Neovim, or run `:Lazy sync`. Remove the entry and run `:Lazy clean` to u
 | `prefix` `r` | reload the config |
 | `prefix` `Ctrl+l` | clear the screen |
 | `Ctrl+h/j/k/l` | move between panes **and** Neovim splits |
+| `Cmd+↑↓←→` | split towards the arrow |
+| `Shift+↑↓←→` | move to the pane in that direction (Neovim splits too) |
 
 `prefix` `|` and `prefix` `-` also split, and `prefix` `[` also scrolls back — those
 are the conventional keys, but on a German keyboard they need Alt+7 and Alt+5, so
@@ -249,6 +251,24 @@ are the conventional keys, but on a German keyboard they need Alt+7 and Alt+5, s
 | `Tab` | next panel |
 | `x` | menu of everything available here |
 | `q` | quit |
+
+---
+
+## Arrow-key panes
+
+`Cmd+Arrow` splits the terminal towards the arrow, `Shift+Arrow` moves to the pane in
+that direction. Both work the same whether or not Neovim is open — `Shift+Arrow` steps
+through Neovim's own splits first and only then crosses into the neighbouring tmux pane.
+
+The two keys are handled in different places, and they have to be:
+
+- **`Shift+Arrow` is a tmux binding.** tmux sees the key directly and decides, with the
+  same test vim-tmux-navigator uses, whether to hand it to Neovim or switch panes itself.
+- **`Cmd+Arrow` is a WezTerm binding.** macOS never delivers `Cmd` to a terminal program,
+  so tmux physically cannot see it. WezTerm forwards the tmux keystroke instead — the
+  prefix, then the arrow — which lands on the directional split bindings in `tmux.conf`.
+  When tmux is not running it splits a WezTerm pane, so the key does the obvious thing
+  either way.
 
 ---
 

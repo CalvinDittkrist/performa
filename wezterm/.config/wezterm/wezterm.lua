@@ -49,6 +49,45 @@ config.audible_bell = "Disabled"
 --   * Ctrl+Space MUST stay untouched - it is the tmux prefix. Binding it here
 --     would swallow the key before tmux ever sees it.
 
+-- Cmd+Arrow splits the terminal towards the arrow.
+--
+-- tmux owns the panes here, so the natural place for this would be tmux itself
+-- - except macOS never delivers Cmd to a terminal program, so tmux can only
+-- ever see the keys WezTerm chooses to forward. This forwards the tmux
+-- keystroke for a directional split: the prefix (Ctrl+Space), then the arrow.
+-- The matching bindings live in tmux.conf under "Directional splits".
+--
+-- When tmux is not running, the same shortcut splits a WezTerm pane instead, so
+-- it does the obvious thing either way rather than emitting stray characters
+-- into the shell.
+--
+-- Shift+Arrow is deliberately *not* bound here: tmux handles it directly, and
+-- binding it would swallow the key before tmux ever saw it.
+
+local function running_tmux(pane)
+	local process = pane:get_foreground_process_name()
+	return process ~= nil and process:find("tmux") ~= nil
+end
+
+local function split(arrow, wezterm_direction)
+	return wezterm.action_callback(function(window, pane)
+		if running_tmux(pane) then
+			window:perform_action(
+				wezterm.action.Multiple({
+					wezterm.action.SendKey({ key = "Space", mods = "CTRL" }), -- tmux prefix
+					wezterm.action.SendKey({ key = arrow }),
+				}),
+				pane
+			)
+		else
+			window:perform_action(
+				wezterm.action.SplitPane({ direction = wezterm_direction }),
+				pane
+			)
+		end
+	end)
+end
+
 config.keys = {
 	-- Cmd+Enter toggles fullscreen (WezTerm has no default for this).
 	{
@@ -56,6 +95,11 @@ config.keys = {
 		mods = "CMD",
 		action = wezterm.action.ToggleFullScreen,
 	},
+
+	{ key = "RightArrow", mods = "CMD", action = split("RightArrow", "Right") },
+	{ key = "LeftArrow", mods = "CMD", action = split("LeftArrow", "Left") },
+	{ key = "DownArrow", mods = "CMD", action = split("DownArrow", "Down") },
+	{ key = "UpArrow", mods = "CMD", action = split("UpArrow", "Up") },
 }
 
 return config
