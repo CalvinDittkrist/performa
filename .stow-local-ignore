@@ -1,0 +1,4 @@
+# Files stow must never link into $HOME, even if they appear inside a package.
+# One extended regex per line, matched against the path relative to the package.
+\.DS_Store
+\.git
