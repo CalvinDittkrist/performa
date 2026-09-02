@@ -22,11 +22,66 @@ conflicts, and only then creates the symlinks. It never overwrites an existing f
 
 Afterwards:
 
-1. Open a new terminal (or `exec zsh`) so `XDG_CONFIG_HOME` takes effect
-2. Restart WezTerm to pick up the font and colours
-3. In tmux press `Ctrl+Space` then `Shift+i` once to install the tmux plugins
+1. Restart WezTerm. That both picks up the new font and colours and gives you a shell
+   where `XDG_CONFIG_HOME` is set.
+2. Run `nvim` once and wait — it installs its own plugins, then quit with `:q`.
+3. Run `tmux` to start a session, press `Ctrl+Space` then `Shift+i` to install its
+   plugins, then `exit` to leave.
 
-Neovim installs its own plugins on first launch — just run `nvim` and wait.
+Then read **First steps** below, which covers how to start and — more usefully — how to
+get back out of each tool.
+
+---
+
+## First steps
+
+Nothing starts by itself. Each tool is a command you run, and each one has its own way
+out — that second half matters more than it sounds, because getting stuck inside an
+editor you cannot quit is the classic first bad experience.
+
+### Neovim
+
+```sh
+nvim              # open the editor
+nvim somefile.py  # open a file directly
+```
+
+**To quit:** press `Esc` first (that leaves whatever mode you are in), then type `:q` and
+press Enter. `:q!` throws away unsaved changes. `:wq` saves and quits.
+
+If you are lost: `Esc` always takes you back to normal mode. Then press `Space` and wait —
+a menu of everything you can do appears.
+
+### tmux
+
+```sh
+tmux              # start a new session
+tmux a            # re-attach to the session you left
+tmux ls           # list sessions
+```
+
+The prefix is `Ctrl+Space`: hold Ctrl, tap Space, let go, *then* press the next key. It
+does nothing on its own, and it does nothing at all until tmux is actually running.
+
+**To quit:** type `exit` in each pane, or `Ctrl+Space` then `d` to detach and leave the
+session running in the background (`tmux a` brings it back).
+
+The first time you start tmux, press `Ctrl+Space` then `Shift+i` once to install its
+plugins. The status bar goes colourful a few seconds later.
+
+### lazygit
+
+```sh
+cd some-git-repo
+lazygit
+```
+
+**To quit:** `q`.
+
+### WezTerm
+
+It is the terminal itself — you are already in it. Close it like any macOS window
+(`Cmd+W` for the tab, `Cmd+Q` to quit), or restart it after changing its config.
 
 ---
 
