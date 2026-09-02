@@ -38,7 +38,10 @@ return {
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
 			options = {
-				theme = "catppuccin",
+				-- "catppuccin-nvim" follows whatever flavour colorscheme.lua sets,
+				-- so changing mocha -> latte there needs no edit here.
+				-- (A plain "catppuccin" silently falls back to the default theme.)
+				theme = "catppuccin-nvim",
 				globalstatus = true, -- one status line for all splits, not one each
 				component_separators = "|",
 				section_separators = "",
