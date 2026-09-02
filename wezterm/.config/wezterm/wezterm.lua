@@ -26,7 +26,9 @@ config.line_height = 1.1
 config.enable_tab_bar = false
 
 config.window_padding = { left = 12, right = 12, top = 12, bottom = 8 }
-config.window_decorations = "RESIZE" -- no title bar, but still resizable
+-- Keep the macOS title bar. "RESIZE" alone looks tidier but removes the
+-- traffic lights with it, so there is no visible way to close the window.
+config.window_decorations = "TITLE | RESIZE"
 config.window_background_opacity = 0.96
 config.macos_window_background_blur = 20
 
