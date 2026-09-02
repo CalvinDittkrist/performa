@@ -54,3 +54,13 @@ opt.inccommand = "split" -- live preview of :substitute results
 -- Show otherwise invisible characters, so stray tabs and trailing spaces stand out.
 opt.list = true
 opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+
+-- --- Legacy providers -----------------------------------------------------
+-- Only old remote plugins written in these languages need them; everything in
+-- lua/plugins/ is pure Lua. Left enabled, each one adds a permanent warning to
+-- :checkhealth for a dependency we will never install.
+-- Re-enable a line (delete it) if a plugin ever asks for that provider.
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_python3_provider = 0

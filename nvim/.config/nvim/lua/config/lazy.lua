@@ -43,6 +43,12 @@ require("lazy").setup({
 
 	install = { colorscheme = { "catppuccin" } },
 
+	-- No plugin here needs luarocks. Left on, lazy.nvim reports a permanent
+	-- ERROR in :checkhealth for a toolchain we never use, which trains you to
+	-- ignore checkhealth - the one place that tells you when something is
+	-- genuinely broken.
+	rocks = { enabled = false },
+
 	performance = {
 		rtp = {
 			-- Disable bundled Vim plugins we do not use; a few of them are slow.

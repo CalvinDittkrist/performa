@@ -31,7 +31,13 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 -- but plenty of files have no formatter configured.
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = augroup("trim_whitespace"),
-	callback = function()
+	callback = function(event)
+		-- Only touch real files. Writing out a special buffer (a :checkhealth
+		-- report, a terminal, a plugin's scratch window) would throw, because
+		-- substitution is not allowed there.
+		if vim.bo[event.buf].buftype ~= "" then
+			return
+		end
 		local view = vim.fn.winsaveview()
 		vim.cmd([[keeppatterns %s/\s\+$//e]])
 		vim.fn.winrestview(view)
