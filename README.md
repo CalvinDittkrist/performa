@@ -35,6 +35,14 @@ get back out of each tool.
 
 ## First steps
 
+> **These shortcuts only exist inside the program they belong to.** `Ctrl+Space v` splits
+> a pane *in tmux* — in a plain shell it does nothing at all. `ö` and `ä` jump around
+> *in Neovim*. If a key seems dead, the first question is: is that program actually
+> running in this window?
+>
+> You need a free terminal to start them in. `Cmd+T` opens a new tab in WezTerm; the tab
+> bar appears as soon as there is more than one.
+
 Nothing starts by itself. Each tool is a command you run, and each one has its own way
 out — that second half matters more than it sounds, because getting stuck inside an
 editor you cannot quit is the classic first bad experience.

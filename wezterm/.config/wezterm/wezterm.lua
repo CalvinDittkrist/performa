@@ -21,9 +21,14 @@ config.font = wezterm.font_with_fallback({
 config.font_size = 14.0
 config.line_height = 1.1
 
--- tmux draws its own status line at the bottom, so WezTerm's tab bar would just
--- be a second, redundant row of tabs.
-config.enable_tab_bar = false
+-- Show the tab bar only once there is more than one tab: no wasted row while a
+-- single shell is open, but the moment Cmd+T opens a second one you can see it
+-- and click your way back. Turning it off entirely hides the fact that tabs
+-- exist at all, which is only reasonable once tmux is doing that job for you.
+config.enable_tab_bar = true
+config.hide_tab_bar_if_only_one_tab = true
+config.use_fancy_tab_bar = false
+config.tab_bar_at_bottom = false
 
 config.window_padding = { left = 12, right = 12, top = 12, bottom = 8 }
 -- Keep the macOS title bar. "RESIZE" alone looks tidier but removes the
