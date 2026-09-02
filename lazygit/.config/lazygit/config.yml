@@ -1,0 +1,50 @@
+# lazygit configuration.
+#
+# NOTE: on macOS lazygit only reads this file when XDG_CONFIG_HOME is set.
+# That happens in zsh/.zshenv of this repo. Verify with:
+#   lazygit --print-config-dir   ->  ~/.config/lazygit
+
+gui:
+  # 3 = the Nerd Font version installed via the Brewfile.
+  # Set this to "" if icons ever render as empty boxes.
+  nerdFontsVersion: "3"
+
+  # Side panel takes a third of the width, diff gets the rest.
+  sidePanelWidth: 0.33
+  mainPanelSplitMode: flexible
+
+  showFileTree: true
+  showRandomTip: false
+  showCommandLog: false
+  skipDiscardChangeWarning: false
+
+  # Catppuccin Mocha
+  theme:
+    activeBorderColor:
+      - "#89b4fa" # blue
+      - bold
+    inactiveBorderColor:
+      - "#a6adc8" # subtext0
+    optionsTextColor:
+      - "#89b4fa"
+    selectedLineBgColor:
+      - "#313244" # surface0
+    cherryPickedCommitBgColor:
+      - "#45475a" # surface1
+    cherryPickedCommitFgColor:
+      - "#89b4fa"
+    unstagedChangesColor:
+      - "#f38ba8" # red
+    defaultFgColor:
+      - "#cdd6f4" # text
+    searchingActiveBorderColor:
+      - "#f9e2af" # yellow
+
+git:
+  paging:
+    colorArg: always
+  # Warn when the commit subject line gets too long for a readable git log.
+  commitPrefixes: {}
+
+# Ask before quitting while a command is still running.
+promptToReturnFromSubprocess: true
