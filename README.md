@@ -184,7 +184,7 @@ Restart Neovim, or run `:Lazy sync`. Remove the entry and run `:Lazy clean` to u
 | `<Space>cr` | rename symbol everywhere |
 | `<Space>ca` | code action / quick fix |
 | `<Space>cf` | format now |
-| `]d` / `[d` | next / previous problem |
+| `]d` / `[d` | next / previous problem (or `äd` / `öd`) |
 | `<Space>ci` | LSP status (`:checkhealth vim.lsp`) |
 
 ### Neovim — git
@@ -192,7 +192,7 @@ Restart Neovim, or run `:Lazy sync`. Remove the entry and run `:Lazy clean` to u
 | Keys | Does |
 | --- | --- |
 | `<Space>gg` | open lazygit |
-| `]h` / `[h` | next / previous change |
+| `]h` / `[h` | next / previous change (or `äh` / `öh`) |
 | `<Space>gp` | preview this change |
 | `<Space>gs` | stage this change |
 | `<Space>gb` | who wrote this line |
@@ -206,6 +206,7 @@ Restart Neovim, or run `:Lazy sync`. Remove the entry and run `:Lazy clean` to u
 | `<Space>w` | save |
 | `Shift+h` / `Shift+l` | previous / next file |
 | `gcc` | comment out the line |
+| `ö` / `ä` | stand in for `[` / `]` — so `äd` is the next problem, `öh` the previous git change |
 | `J` / `K` in visual mode | move the selection |
 | `<CR>` in normal mode | grow selection along the syntax tree |
 
@@ -213,15 +214,20 @@ Restart Neovim, or run `:Lazy sync`. Remove the entry and run `:Lazy clean` to u
 
 | Keys | Does |
 | --- | --- |
-| `prefix` `\|` | split left/right |
-| `prefix` `-` | split top/bottom |
+| `prefix` `v` | split left/right (like `:vsplit`) |
+| `prefix` `s` | split top/bottom (like `:split`) |
 | `prefix` `c` | new window |
 | `prefix` `1`…`9` | jump to window |
 | `prefix` `d` | detach (session keeps running) |
-| `prefix` `[` | scroll back, `v` select, `y` copy, `q` leave |
+| `prefix` `S` | switch session |
+| `prefix` `Esc` | scroll back, `v` select, `y` copy, `q` leave |
 | `prefix` `r` | reload the config |
 | `prefix` `Ctrl+l` | clear the screen |
 | `Ctrl+h/j/k/l` | move between panes **and** Neovim splits |
+
+`prefix` `|` and `prefix` `-` also split, and `prefix` `[` also scrolls back — those
+are the conventional keys, but on a German keyboard they need Alt+7 and Alt+5, so
+`v` / `s` / `Esc` are the ones worth learning.
 
 `tmux a` reattaches to the last session.
 
@@ -235,6 +241,19 @@ Restart Neovim, or run `:Lazy sync`. Remove the entry and run `:Lazy clean` to u
 | `Tab` | next panel |
 | `x` | menu of everything available here |
 | `q` | quit |
+
+---
+
+## German keyboard
+
+`[`, `]` and `|` need Alt on a German layout, which makes the conventional Vim and tmux
+keys awkward for something pressed dozens of times an hour. Two adjustments:
+
+- In Neovim, **`ö` and `ä` stand in for `[` and `]`**. They sit in exactly that position
+  on a US keyboard. This covers every `[x` / `]x` pair, including ones added later by a
+  plugin — `äd` next problem, `öh` previous git change, and so on.
+- In tmux, **`prefix v` / `prefix s`** split (matching `:vsplit` / `:split`) and
+  **`prefix Esc`** enters scroll mode. The original `|`, `-` and `[` still work.
 
 ---
 

@@ -74,7 +74,25 @@ map("v", ">", ">gv", { desc = "Indent" })
 -- Paste over a selection without losing what you had yanked.
 map("v", "p", '"_dP', { desc = "Paste without yanking selection" })
 
+-- --- German keyboard: bracket pairs ---------------------------------------
+--
+-- Vim navigates in pairs: [d / ]d jumps between problems, [h / ]h between git
+-- changes, and plugins keep adding more. On a German layout [ and ] are Alt+5
+-- and Alt+6, which is unusable for something you press this often.
+--
+-- oe and ae sit exactly where [ and ] are on a US keyboard, so this maps them
+-- through. Everything of the form [x / ]x - including pairs added later by a
+-- plugin - works as oex / aex without needing its own mapping.
+--
+-- remap = true is what makes that work: it lets the result be looked up again
+-- rather than being taken literally.
+map("n", "ö", "[", { remap = true, desc = "Same as [" })
+map("n", "ä", "]", { remap = true, desc = "Same as ]" })
+map("x", "ö", "[", { remap = true, desc = "Same as [" })
+map("x", "ä", "]", { remap = true, desc = "Same as ]" })
+
 -- --- Diagnostics (errors and warnings) ------------------------------------
+-- Reachable as öd / äd too, via the mapping above.
 
 map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Previous problem" })
 map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Next problem" })
